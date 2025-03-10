@@ -37,3 +37,4 @@ productsController.deleteProducts = async (req, res) => {
     res.json({message: "product deleted"})
 }
 
+export default productsController;

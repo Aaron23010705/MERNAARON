@@ -19,7 +19,7 @@ productsController.insertProducts = async(req,res) => {
 //cada vez ue se vea un req es todo lo que se solicita
   const {name, description, price, stock } = req.body;
   const newProduct = new productsModel({name,  description,  price,  stock })
-  await newProduct,save()
+  await newProduct.save()
   res.json ({message: "product saved"});
 }
 

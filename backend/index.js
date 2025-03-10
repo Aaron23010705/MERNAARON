@@ -7,9 +7,7 @@ import "./database.js";
 async function main(){
     //crear una constante del puerto paso 1
     const port = 4000;
-    app.listen(port);
-    console.log("Server is running");
-}
+    const newLocal = app.listen(port);
+    console.log("Server is running"); }
 
-//Ejecutamos tod
-main();
+    main();

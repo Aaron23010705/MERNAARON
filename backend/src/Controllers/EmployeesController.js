@@ -4,22 +4,22 @@ import Employee from "../models/Employees.js";
 
 employeeController.getEmployee = async (req,res) => {
 
-    const clients = await Employee.find();
-    res.json(clients)
+    const Employee = await Employee.find();
+    res.json(Employee)
    
 }
 
 employeeController.insertEmployee = async (req,res) => {
 
     const {name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified} = req.body;
-    const newClient = new Employee({name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified})
-    await newClient.save();
+    const newEmployee = new Employee({name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified})
+    await newEmployee.save();
     res.json ({message: "Employee saved"});
 }
 
 employeeController.updateEmployee = async (req,res) => {
     const {name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified} = req.body;
-     const updateClient = await Employee.findByIdAndUpdate(req.params.id,{name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber,isVerified},{new:true})
+     const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id,{name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber,isVerified},{new:true})
      res.json ({message: "Employee updated"});
 
 }

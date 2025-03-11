@@ -3,6 +3,7 @@ import express from "express";
 import productRoutes from "./src/routes/products.js"
 import clientRoutes from "./src/routes/clients.js"
 import employeeRoutes from "./src/routes/employees.js"
+import localsRoutes from "./src/routes/locals.js"
 
 
 //creo una constante que es igual
@@ -15,6 +16,7 @@ app.use (express.json());
 app.use("/api/products", productRoutes)
 app.use("/api/clients", clientRoutes)
 app.use("/api/employee", employeeRoutes)
+app.use("/api/locals", localsRoutes)
 
 
 //Exporto la constante para poder usar express en otros lados

@@ -1,51 +1,29 @@
 import { Schema, model } from "mongoose";
 
-const localsSchema = new Schema(
-    { name: {
-type:String,
- require:true,
- maxLength:100
-},
-lastName:{
-    type:String,
-    require:true,
-    maxLenght:100
-},
-birthday: {
-    type:String,
-    require:true,
-    maxLenght:100
-},
-
-email:{
+const localSchema = new Schema(
+{ name:{
 type:String,
 require:true,
-maxLenght:100
+maxLength:100
 },
-password:{
+adress:{
     type:String,
-     require:true,
-     maxLenght:100
+    require:true,
+    maxLength:600
 },
-
 telephone:{
-type:String,
-require:true,
-maxLenght:10
+    type: String,
+    requiere:true,
+    maxLenght:200
 },
-dui:{
-type:String,
-require:true,
-maxLenght:15
-},
-isVerified:{
-    type:Boolean,
-    require:true
-
-} }, 
-{
-timestamps:true,
-strict:true
-})
-
-export default model ("Clients", localsSchema );
+schedule:{
+type: String,
+require: true,
+maxLenght:100
+}
+},{
+    timestamps:true,
+    strict:true
+}
+)
+export default model ("Local", localSchema);

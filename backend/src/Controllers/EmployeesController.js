@@ -4,8 +4,8 @@ import Employee from "../models/Employees.js";
 
 employeeController.getEmployee = async (req,res) => {
 
-    const Employee = await Employee.find();
-    res.json(Employee)
+    const employee = await Employee.find();
+    res.json(employee)
    
 }
 

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-
+import {config} from "./src/config.js"
 //Guardo en una constante la direcciónd e mi base d edatos
-const URI = "mongodb://localhost:27017/CocaColaDB"
+
 
 //Conectar la base de datos
-mongoose.connect(URI)
+mongoose.connect(config.db.URI)
 
 //--------Comprobación que la base sirve
 

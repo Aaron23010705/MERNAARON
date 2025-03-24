@@ -1,7 +1,7 @@
 //Importamos el modelo de la base dre datos
-import EmployeeModel from "../models/Employees"
-import bcryptjs from "bycrypjs"; //Encriptar contraseña o correos
-import jsonwebtoken from "jsomwebtoken" //Generar tokens
+import EmployeeModel from "../models/Employees.js"
+import bcryptjs from "bcryptjs"; //Encriptar contraseña o correos
+import jsonwebtoken from "jsonwebtoken" //Generar tokens
 //cookie-parse sirve para generar cookies
 import {config} from "../config.js" //Se importa la configuración del proyecto
 

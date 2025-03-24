@@ -8,12 +8,15 @@ import categoriesRoutes from "./src/routes/categories.js";
 import reviewsRoute from "./src/routes/review.js";
 import registerEmployessRoutes from "./src/routes/registerEmployees.js";
 import evaluationRoutes from "./src/routes/evaluation.js"
+import LoginRoutes from "./src/routes/login.js"
+import cookieParse from "cookie-parser"
 
 
 
 //creo una constante que es igual
 //a la libreria que importe y se ejecuta
 const app = express();
+app.use(cookieParse())
 
 //Uso un mmiddleware para que acepte datos jason
 app.use (express.json());
@@ -26,9 +29,7 @@ app.use("/api/locals", localsRoutes)
 app.use("/api/categories", categoriesRoutes)
 app.use("/api/reviews", reviewsRoute)
 app.use("/api/evaluations", evaluationRoutes)
-
 app.use("/api/registerEmployess", registerEmployessRoutes)
-
-app.use ("/api/login")
+app.use ("/api/login", LoginRoutes)
 //Exporto la constante para poder usar express en otros lados
 export default app;    

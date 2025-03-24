@@ -9,14 +9,6 @@ employeeController.getEmployee = async (req,res) => {
    
 }
 
-employeeController.insertEmployee = async (req,res) => {
-
-    const {name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified} = req.body;
-    const newEmployee = new Employee({name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified})
-    await newEmployee.save();
-    res.json ({message: "Employee saved"});
-}
-
 employeeController.updateEmployee = async (req,res) => {
     const {name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified} = req.body;
      const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id,{name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber,isVerified},{new:true})

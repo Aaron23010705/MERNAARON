@@ -6,6 +6,7 @@ import employeeRoutes from "./src/routes/employees.js"
 import localsRoutes from "./src/routes/locals.js"
 import categoriesRoutes from "./src/routes/categories.js";
 import reviewsRoute from "./src/routes/review.js";
+import registerEmployessRoutes from "./src/routes/registerEmployees.js";
 import evaluationRoutes from "./src/routes/evaluation.js"
 
 
@@ -26,6 +27,8 @@ app.use("/api/categories", categoriesRoutes)
 app.use("/api/reviews", reviewsRoute)
 app.use("/api/evaluations", evaluationRoutes)
 
+app.use("/api/registerEmployess", registerEmployessRoutes)
 
+app.use ("/api/login")
 //Exporto la constante para poder usar express en otros lados
 export default app;    

@@ -30,9 +30,7 @@ loginController.login = async (req,res) => {
      if(email === config.emailAdmin.email && password === config.emailAdmin.password) {
 
         userType = "Admin"
-        userFound
-        
-        ={_id:"Admin"}
+        userFound   ={_id:"Admin"}
      }else {
 
              //2- Empleado
@@ -56,8 +54,8 @@ loginController.login = async (req,res) => {
 
      //si no es administrador validamos la contraseña
      if(userType !== "Admin") {
-        const isMatch = bcryptjs.compare(password, userFound.password);
-        if (isMatch) {
+        const isMatch = await bcrypt.compare(password, userFound.password);
+        if (!isMatch) {
             return res.json ({message: "invalid Password"})
 
         }
@@ -77,6 +75,7 @@ loginController.login = async (req,res) => {
         (error, token )=> {
         if (error) console.log(error)
             res.cookie("authToken", token)
+            res.json({message: "login successful"})
         }
      )
 

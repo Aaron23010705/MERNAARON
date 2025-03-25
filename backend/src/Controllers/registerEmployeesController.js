@@ -4,12 +4,11 @@ import bcryptjs from "bcryptjs"; //Encriptar contraseña o correos
 import jsonwebtoken from "jsonwebtoken" //Generar tokens
 //cookie-parse sirve para generar cookies
 import {config} from "../config.js" //Se importa la configuración del proyecto
-
 //creamos un array de funciones
 const registerEmployessController = {}
 
 
-registerEmployessController.register = async () => {
+registerEmployessController.register = async (req, res) => {
 
     //Pedimos todos los datos
     const {name, lastname, birthday, email, adress, hireDate, password, telephone, dui, issNumber, isVerified} = req.body;
@@ -58,6 +57,8 @@ registerEmployessController.register = async () => {
 (error, token) => {
     if(error) console.log(error);
     res.cookie("authToken", token);
+    res.json ({message: "Empleado registrado"})
+
 }
 
     )

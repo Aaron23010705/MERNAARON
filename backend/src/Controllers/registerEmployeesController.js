@@ -53,7 +53,7 @@ registerEmployessController.register = async (req, res) => {
  //3- Cuando expira
  { expiresIn: 
     config.JWT.expiresIN},
-//4 Función felcha
+//4 Función flecha
 (error, token) => {
     if(error) console.log(error);
     res.cookie("authToken", token);

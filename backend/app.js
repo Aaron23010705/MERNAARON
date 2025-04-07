@@ -33,5 +33,6 @@ app.use("/api/evaluations", evaluationRoutes)
 app.use("/api/registerEmployess", registerEmployessRoutes)
 app.use ("/api/login", LoginRoutes)
 app.use("/api/logout", logoutRoutes )
+app.use("/api/registerClient", )
 //Exporto la constante para poder usar express en otros lados
 export default app;    

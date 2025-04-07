@@ -20,4 +20,8 @@ export const config = {
         email: process.env.ADMIN_EMAIL,
         password: process.env.ADMIN_PASSWORD,
     },
+    userEmail: {
+        email_user: process.env.EMAIL_USER,
+        password_user: process.env.EMAIL_PASS
+    }
 };

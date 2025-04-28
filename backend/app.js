@@ -12,6 +12,7 @@ import LoginRoutes from "./src/routes/login.js"
 import cookieParse from "cookie-parser"
 import logoutRoutes from "./src/routes/logout.js"
 import RegisterClientRoutes from "./src/routes/registerClient.js"
+import PasswordRecoveryRoutes from "./src/routes/passwordRecovery.js"
 
 
 
@@ -35,5 +36,7 @@ app.use("/api/registerEmployess", registerEmployessRoutes)
 app.use ("/api/login", LoginRoutes)
 app.use("/api/logout", logoutRoutes )
 app.use("/api/registerClient", RegisterClientRoutes )
+app.use("/api/passwordRecovery", PasswordRecoveryRoutes)
+
 //Exporto la constante para poder usar express en otros lados
 export default app;    

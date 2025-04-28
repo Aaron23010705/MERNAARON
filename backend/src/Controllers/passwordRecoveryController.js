@@ -1,4 +1,4 @@
-import jsonwebToken from "jsonwebtoken" // token 
+import jsonwebToken, { decode } from "jsonwebtoken" // token 
 import bcrypt from "bcryptjs" //Encriptar contraseña
 
 import clientsModel from "../models/Clients.js";
@@ -46,11 +46,55 @@ const token = jsonwebToken.sign(
     config.JWT.secret,
     //3 ¿Cuándo expira?
     {expiresIn: "25m"}
-)
+);
 
+res.cookie("tokenRecoveryCode", token, { maxAge: 25 * 60 * 1000 });
+ 
+// Enviamos el correo
+await sendEmail(
+  email,
+  "Password recovery Code",
+  `your verification code is ${code}`,
+  HTMLRecoveryEmail(code)
+);
 
+res.json ({message: "verification code send"});
 
+    } catch (error) {
+        console.log("error" + error)
+    }
+};
 
+passwordRecoveryController.verifyCode = async (req,res) =>{
 
-    } catch (error) {}
-} 
+    const {code} = req.body;
+    try {
+        const token = req.cookies.tokenRecoveryCode;
+
+        const decoded = jsonwebToken.verify(token, config.JWT.secret)
+
+        if (decoded.code !==code){
+            return res.json ({message: "Invalid Code"});
+        }
+        const newToken =jsonwebToken.sign(
+        //1-que vamos a guardar
+
+          {  email: decoded.email,
+        code: decoded.code,
+        userType: decoded.userType,
+        verified:true},
+                //2-secret key
+                config.JWT.secret,
+        //3-¿Cuando vence?
+              {expiresIn:"25m"}
+
+        )
+        res.cookie("tokenRecoveryCode", newToken, {maxAge:25*60*1000});
+ 
+        res.json({ message: "Code verified successfully"});
+       
+    } catch (error) {
+        console.log("error" + error)
+    }
+}
+export default passwordRecoveryController

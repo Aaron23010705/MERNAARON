@@ -31,7 +31,7 @@ if(!userFound){
     
 //Generar un código de 6 digitos
 
-const code = Math.floor(10000 + Math.random() * 60000).toString
+const code = Math.floor(10000 + Math.random() * 60000).toString()
 
 //generar un token
 const token = jsonwebToken.sign(
@@ -58,7 +58,7 @@ await sendEmail(
   HTMLRecoveryEmail(code)
 );
 
-res.json ({message: "verification code send"});
+res.json ({message: "verification code sent"});
 
     } catch (error) {
         console.log("error" + error)
@@ -93,6 +93,49 @@ passwordRecoveryController.verifyCode = async (req,res) =>{
  
         res.json({ message: "Code verified successfully"});
        
+    } catch (error) {
+        console.log("error" + error)
+    }
+};
+
+passwordRecoveryController.newPassword = async(req,res) =>{
+
+    const {newPassword}= req.body;
+    try {
+                //decodificar el token
+
+        const token = req.cookies.tokenRecoveryCode
+
+        const decoded = jsonwebToken.verify(token, config.JWT.secret)
+
+        if (!decoded.verified){
+            return res.json ({message: "Code not verified"});
+        }
+let user;
+
+const {email}= decoded;
+
+
+const hashedPassword = await bcrypt.hash(newPassword,10)
+
+//Guardamos la nueva contraseña en la base de datos
+
+if( decoded.userType == "client"){
+    user = await clientsModel.findOneAndUpdate(
+        {email},
+        {password:hashedPassword},
+        {new: true}
+    )
+} else if (decoded.userType ="employee"){
+    user = await employeeModel.findOneAndUpdate(
+        {email},
+        {password: hashedPassword},
+        {new:true}
+        )
+}
+res.clearCookie("tokenRecoveryCode") 
+res.json ({message:"Password updated"})
+        
     } catch (error) {
         console.log("error" + error)
     }

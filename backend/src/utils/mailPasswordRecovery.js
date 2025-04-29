@@ -55,3 +55,5 @@ const HTMLRecoveryEmail = (code) => {
       </div>
     `;
   };
+
+  export {sendEmail, HTMLRecoveryEmail}

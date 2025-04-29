@@ -38,29 +38,30 @@ registerEmployessController.register = async (req, res) => {
      issNumber,
       isVerified});
 
+ 
     await newEmployee.save();
     res.json ({message: "Employee saved in Register"});
 
     //Generar un token que valide que ya estoy registrado y que puedo acceder a todas las páginas
     //El token es el que valida si ya se inició sesión/se ha registrado el usuario, es por sesión, por lo que se genera cada vez que se entra
     //Un token tiene los siguientes requerimientos 1-Qué se va a guardar, 2-La palabra secreta, 3-Cuando expira el token, 4-Función flecha
+     
     jsonwebtoken.sign(
-//1- Que voy a guardar 
-            {id: newEmployee._id},
-//2- pALABRA SECRETA (Se guarda en env)
- config.JWT.secret,
-
- //3- Cuando expira
- { expiresIn: 
-    config.JWT.expiresIN},
-//4 Función flecha
-(error, token) => {
-    if(error) console.log(error);
-    res.cookie("authToken", token);
-    res.json ({message: "Empleado registrado"})
-
-}
-
+        //1- Que voy a guardar 
+                    {id: newEmployee._id},
+        //2- pALABRA SECRETA (Se guarda en env)
+         config.JWT.secret,
+        
+         //3- Cuando expira
+         { expiresIn: 
+            config.JWT.expiresIN},
+        //4 Función flecha
+        (error, token) => {
+            if(error) console.log(error);
+            res.cookie("authToken", token);
+            res.json ({message: "Empleado registrado"})
+        
+        }
     )
     }
 

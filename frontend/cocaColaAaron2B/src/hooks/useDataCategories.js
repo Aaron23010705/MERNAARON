@@ -11,7 +11,7 @@ const useDataCategories = () => {
   const [loading, setLoading] = useState(false);
 
   // URL base de tu API - ajusta según tu configuración
-  const API_URL = "http://localhost:4000/api/categories"; // Cambia por tu URL
+  const API_URL = "http://localhost:4000/api"; // Cambia por tu URL
 
   // Función para obtener todas las categorías
   const getCategories = async () => {

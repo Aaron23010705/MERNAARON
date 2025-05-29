@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductList from '../components/listProducts';
 import '../styles/InsertarLocation.css';
-import ImgLocals from '../img/locals.jpeg';
+import ImgLocals from '../img/Products.jpg';
 import useDataProducts from '../hooks/useDataProducts';
 
 const Productos = () => {

@@ -1,36 +1,99 @@
-const categoriesController = {};
-//Siempre agregar .js al final de la ruta
 import categoriesModel from "../models/Categories.js";
-//S E L E C T
+import { v2 as cloudinary } from 'cloudinary';
+import { config } from "../config.js";
 
-categoriesController.getCategory =async(req, res) => {
- const Categories = await categoriesModel.find()
- res.json(Categories)
+cloudinary.config({
+  cloud_name: config.cloudinary.cloudinary_name,
+  api_key: config.cloudinary.cloudinary_api_key,
+  api_secret: config.cloudinary.cloudinary_api_secret,
+});
 
-}
+const categoriesController = {
+  // GET ALL CATEGORIES
+  getAllCategories: async (req, res) => {
+    try {
+      const categories = await categoriesModel.find();
+      res.json(categories);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener categorías", error });
+    }
+  },
 
-// I N S E R T 
-//Asinctona significa que va línea por línea osea va pedazo por pedazo, es asincrona cuadndo se espera que pase algo antes de que se devuelva algo
-categoriesController.insertCategory = async(req,res) => {    
-//cada vez ue se vea un req es todo lo que se solicita
-  const {name, description, status, image } = req.body;
-  const newCategory = new categoriesModel({name, description, status, image })
-  await newCategory.save()
-  res.json ({message: "Category saved"});
-}
+  // CREATE CATEGORY
+  createCategory: async (req, res) => {
+    try {
+      const { name, description, status } = req.body;
+      let imageUrl = "";
 
-//U P D A T E
-categoriesController.updateCategory = async(req,res) => {
-    const {name, description, status, image} = req.body;
-    const updateCategory = await categoriesModel.findByIdAndUpdate(req.params.id,{name, description, status, image},{new:true})
-    res.json ({message: "Category updated"})
+      if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: "categories",
+          allowed_formats: ["jpg", "png", "jpeg"],
+        });
+        imageUrl = result.secure_url;
+      }
 
-}
+      const newCategory = new categoriesModel({ 
+        name, 
+        description, 
+        status: status === 'true' || status === true,
+        img: imageUrl 
+      });
+      
+      await newCategory.save();
+      res.json({ message: "Categoría guardada exitosamente", category: newCategory });
+    } catch (error) {
+      console.log("Error al insertar categoría: " + error);
+      res.status(500).json({ message: "Error al guardar categoría", error });
+    }
+  },
 
-//D E L E T E 
-categoriesController.deleteCategory = async (req, res) => {
-    await categoriesModel.findByIdAndDelete(req.params.id)
-    res.json({message: "Category deleted"})
-}
+  // UPDATE CATEGORY
+  updateCategory: async (req, res) => {
+    try {
+      const { name, description, status } = req.body;
+      let updateData = { name, description, status: status === 'true' || status === true };
+
+      if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: "categories",
+          allowed_formats: ["jpg", "png", "jpeg"],
+        });
+        updateData.img = result.secure_url;
+      }
+
+      const updatedCategory = await categoriesModel.findByIdAndUpdate(
+        req.params.id, 
+        updateData, 
+        { new: true }
+      );
+      
+      if (!updatedCategory) {
+        return res.status(404).json({ message: "Categoría no encontrada" });
+      }
+
+      res.json({ message: "Categoría actualizada exitosamente", category: updatedCategory });
+    } catch (error) {
+      console.log("Error al actualizar categoría: " + error);
+      res.status(500).json({ message: "Error al actualizar categoría", error });
+    }
+  },
+
+  // DELETE CATEGORY
+  deleteCategory: async (req, res) => {
+    try {
+      const deletedCategory = await categoriesModel.findByIdAndDelete(req.params.id);
+      
+      if (!deletedCategory) {
+        return res.status(404).json({ message: "Categoría no encontrada" });
+      }
+
+      res.json({ message: "Categoría eliminada exitosamente" });
+    } catch (error) {
+      console.log("Error al eliminar categoría: " + error);
+      res.status(500).json({ message: "Error al eliminar categoría", error });
+    }
+  }
+};
 
 export default categoriesController;

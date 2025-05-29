@@ -1,15 +1,20 @@
 import express from "express";
-import CategoriesController from "../Controllers/CategoriesController.js"
+import multer from "multer";
+import categoriesController from "../controllers/CategoriesController.js";
 
 const router = express.Router();
 
+// Configurar una carpeta en local que guarde las imagenes
+const upload = multer({ dest: "public/" });
 
-router.route("/")
-.get(CategoriesController.getCategory)
-.post(CategoriesController.insertCategory)
+router
+  .route("/")
+  .get(categoriesController.getAllCategories)
+  .post(upload.single("image"), categoriesController.createCategory);
 
-router.route("/:id")
-.put(CategoriesController.updateCategory)
-.delete(CategoriesController.deleteCategory)
+router
+  .route("/:id")
+  .put(upload.single("image"), categoriesController.updateCategory)
+  .delete(categoriesController.deleteCategory);
 
-export default router
+export default router;
